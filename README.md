@@ -4,14 +4,14 @@ An end-to-end testing assignment for [GrabDocs](https://grabdocs.com/), built wi
 
 ---
 
-## 📚 Course Information:
+## 📚 Course Information
 - **Course:** COSC 369-101 / 565-101
 - **Instructor:** Dr. Francis Onodueze
 - **Due Date:** November 10, 2025
 
 ---
 
-## 🧑‍🧑‍🧒 Group Members:
+## 🧑‍🧑‍🧒 Group Members
 - Chenilyn Joy Espineda
 - Dayana Ferrufino
 - Donovan Faucette
@@ -20,11 +20,11 @@ An end-to-end testing assignment for [GrabDocs](https://grabdocs.com/), built wi
 
 ---
 
-## 🛠️ Tools:
+## 🛠️ Tools
 - Cypress
 - Playwright
 
 ---
 
-## ️🌟 Features To Be Tested:
+## ️🌟 Features To Be Tested
 

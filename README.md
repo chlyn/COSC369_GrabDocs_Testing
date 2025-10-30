@@ -1,4 +1,4 @@
-# GrabDocs E2E Testing - Group 3
+# COSC 369: GrabDocs E2E Testing - Group 3
 
 An end-to-end testing assignment for [GrabDocs](https://grabdocs.com/), built with Cypress and Playwright to test complete user workflows such as...
 

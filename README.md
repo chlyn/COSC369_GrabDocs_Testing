@@ -8,6 +8,7 @@ An end-to-end testing assignment for [GrabDocs](https://grabdocs.com/), built wi
 - **Course:** COSC 369-101 / 565-101
 - **Instructor:** Dr. Francis Onodueze
 - **Semester:** Fall 2025
+- **Due Date:** November 10, 2025
 
 ---
 

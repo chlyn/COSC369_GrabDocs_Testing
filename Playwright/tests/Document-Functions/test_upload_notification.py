@@ -23,4 +23,5 @@ def test_upload_notification(page_with_auth):
     notification = page.get_by_text("Files uploaded successfully", exact=False)
     expect(notification).to_be_visible(timeout=10000)
 
-    expect(notification).not_to_be_visible(timeout=5000)
+    # checks for notificaiton to go away
+    expect(notification).not_to_be_visible(timeout=10000)

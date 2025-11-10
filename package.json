@@ -1,0 +1,15 @@
+{
+  "name": "cosc369_grabdocs_testing",
+  "version": "1.0.0",
+  "description": "An end-to-end testing assignment for [GrabDocs](https://grabdocs.com/), built with Cypress and Playwright to test complete user workflows such as...",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cypress": "^14.5.4"
+  }
+}

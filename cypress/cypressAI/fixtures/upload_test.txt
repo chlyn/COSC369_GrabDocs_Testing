@@ -1,0 +1,2 @@
+The capital of France is Paris.
+This file exists so our chatbot can answer questions about it.

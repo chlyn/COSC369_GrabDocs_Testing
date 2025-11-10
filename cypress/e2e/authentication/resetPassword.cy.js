@@ -43,7 +43,7 @@ describe('Success Scenarios', () => {
     cy.fixture('user').then((user) => {
 
       // Filling out the form with valid credentials
-      cy.get('input[name="email"]').type(user.username);
+      cy.get('input[name="email"]').type(user.email);
 
       // Submiting the form by selecting "Send Reset Link"
       cy.contains('button', /Send Reset Link/i).click();

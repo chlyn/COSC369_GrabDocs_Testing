@@ -1,6 +1,7 @@
 {
-  "username": "testgrabdocs@gmail.com",
-  "password": "testtest123",
+  "username": "testuser",
+  "email": "testgrabdocs@gmail.com",
+  "password": "testing123",
   "otpBypass": "335577",
   "firstName": "test",
   "lastName": "user"

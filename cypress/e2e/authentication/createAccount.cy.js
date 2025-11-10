@@ -230,13 +230,18 @@ describe('Error Validation', () => {
   // Scenario where the user enters an existing username or email
   it('username already exists', () => {
 
-    // Filling out the form 
-    cy.get('input[name="username"]').type('testgrabdocs');
-    cy.get('input[name="firstName"]').type('Grab');
-    cy.get('input[name="lastName"]').type('Docs');
-    cy.get('input[name="email"]').type('testgrabdocs@gmail.com');
-    cy.get('input[name="password"]').type('testest123');
-    cy.get('input[type="checkbox"]').click();
+    // Loading existing user credentials from fixture file
+    cy.fixture('user').then((user) => {
+
+      // Filling out the form 
+      cy.get('input[name="username"]').type(user.username);
+      cy.get('input[name="firstName"]').type(user.firstName);
+      cy.get('input[name="lastName"]').type(user.lastName);
+      cy.get('input[name="email"]').type(user.username);
+      cy.get('input[name="password"]').type(user.password);
+      cy.get('input[type="checkbox"]').click();
+      
+    })
 
     // Triggering error by selecting "Create Account" button
     cy.contains('button', /Create Account/i).click();

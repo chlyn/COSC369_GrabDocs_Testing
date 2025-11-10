@@ -39,14 +39,19 @@ describe('Success Scenarios', () => {
   // Resetting password using given form
   it('standard setup', () => {
 
-    // Filling out the form with valid credentials
-    cy.get('input[name="email"]').type('testgrabdocs@gmail.com');
+    // Loading user credentials from fixture file
+    cy.fixture('user').then((user) => {
 
-    // Submiting the form by selecting "Send Reset Link"
-    cy.contains('button', /Send Reset Link/i).click();
+      // Filling out the form with valid credentials
+      cy.get('input[name="email"]').type(user.username);
 
-    // Verifying that success message is present
-    cy.contains(/If an account exists with this email, you will receive password reset instructions./i).should('be.visible');
+      // Submiting the form by selecting "Send Reset Link"
+      cy.contains('button', /Send Reset Link/i).click();
+
+      // Verifying that success message is present
+      cy.contains(/If an account exists with this email, you will receive password reset instructions./i).should('be.visible');
+
+    });
 
   });
 

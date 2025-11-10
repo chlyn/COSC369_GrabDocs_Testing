@@ -1,3 +1,5 @@
+// CREATE ACCOUNT E2E TEST //
+
 // UI VERIFICATION //
 // Checking if all UI elements are visible upon page entry
 
@@ -22,7 +24,7 @@ describe('UI Verification', () => {
     cy.contains('button', /Create Account/i).should('be.visible');
     
     // Alternative signup methods
-    cy.contains(/Continue with Google/i).should('be.visible');
+    cy.contains('button', /Continue with Google/i).should('be.visible');
     cy.contains(/Sign up with phone instead/i).should('be.visible');
 
     // Other links related to account signin
@@ -63,7 +65,7 @@ describe('Success Scenarios', () => {
     cy.get('input[type="checkbox"]').click();
 
     // Submiting the form by selecting "Create Account"
-    cy.contains('button', 'Create Account').click();
+    cy.contains('button', /Create Account/i).click();
 
     // Verifying that success message is present
     cy.contains(/Account created successfully!/i).should('be.visible');
@@ -74,7 +76,7 @@ describe('Success Scenarios', () => {
   it('google setup', () => {
 
     // Selecting the "Continue with Google" button
-    cy.contains(/Continue with Google/i).click();
+    cy.contains('button', /Continue with Google/i).click();
 
     // Verifying that the user is redirected to Google's accounts page
     cy.origin('https://accounts.google.com', () => {
@@ -171,7 +173,7 @@ describe('Error Validation', () => {
   it('register with all fields empty', () => {
 
     // Trigger errors by selecting "Create Account" button
-    cy.contains('button', 'Create Account').click();
+    cy.contains('button', /Create Account/i).click();
 
     // Verifying each error message are present
     cy.contains(/Username is required/i).should('be.visible');
@@ -236,11 +238,11 @@ describe('Error Validation', () => {
     cy.get('input[type="checkbox"]').click();
 
     // Triggering error by selecting "Create Account" button
-    cy.contains('button', 'Create Account').click();
+    cy.contains('button', /Create Account/i).click();
 
     // Verifying hat the error message is present
     cy.contains(/Username or email already exists/i).should('be.visible');
 
   });
-  
+
 })

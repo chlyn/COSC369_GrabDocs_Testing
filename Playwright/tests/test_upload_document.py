@@ -20,11 +20,11 @@ def test_upload_document(page_with_auth, tmp_path):
     # verify the upload completed 
     # checks if the filename is somwewhere on the page
     try:
-        expect(page.get_by_text(fname, exact=False)).to_be_visible(timeout=20000)
+        expect(page.get_by_text(fname, exact=False)).to_be_visible(timeout=900)
     except Exception:
         # Fallbacks checks if file upload failed
         try:
-            expect(page.get_by_text("No documents uploaded yet", exact=False)).not_to_be_visible(timeout=20000)
+            expect(page.get_by_text("No documents uploaded yet", exact=False)).not_to_be_visible(timeout=900)
         except Exception:
             # Collect artifacts to see what happened
             page.screenshot(path="upload_debug_screenshot.png", full_page=True)

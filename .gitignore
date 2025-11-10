@@ -1,0 +1,9 @@
+# Ignore Playwright session + debug dumps
+auth.json
+upload_debug_*.*
+tests/fixtures/*.tmp
+
+# Python cache & venv
+__pycache__/
+*.pyc
+.venv/

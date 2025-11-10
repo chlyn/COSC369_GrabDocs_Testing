@@ -47,22 +47,37 @@ describe('Success Scenarios', () => {
   // Logging in using given form
   it('standard setup', () => {
 
-    // Filling out the form with valid credentials
-    cy.get('input[name="username"]').type('testgrabdocs@gmail.com');
-    cy.get('input[name="password"]').type('testtest123');
+    // Loading user credentials from fixture file
+    cy.fixture('user').then((user) => {
 
-    // Submiting the form by selecting "Sign in"
-    cy.contains('button', /Sign in/i).click();
+      // Filling out the form with valid credentials
+      cy.get('input[name="username"]').type(user.username);
+      cy.get('input[name="password"]').type(user.password);
 
-    // Verifying that two-authenticator message is present
-    cy.contains(/Verification code sent to/i).should('be.visible');
+      // Submiting the form by selecting "Sign in"
+      cy.contains('button', /Sign in/i).click();
 
-    // Verifying each input fields and buttons are present
-    cy.contains(/Two-Factor Authentication/i).should('be.visible');
-    cy.get('input[name="otpCode"]').should('be.visible');
-    cy.get('input[type="checkbox"]').should('be.visible');
-    cy.contains('button', /Verify Code/i).should('be.visible');
-    cy.contains('button', /Back to Login/i).should('be.visible');
+      // Verifying that two-authenticator message is present
+      cy.contains(/Verification code sent to/i).should('be.visible');
+
+      // Verifying each input fields and buttons are present
+      cy.contains(/Two-Factor Authentication/i).should('be.visible');
+      cy.get('input[name="otpCode"]').should('be.visible');
+      cy.get('input[type="checkbox"]').should('be.visible');
+      cy.contains('button', /Verify Code/i).should('be.visible');
+      cy.contains('button', /Back to Login/i).should('be.visible');
+
+      // Filling out verfication code 
+      cy.get('input[name="otpCode"]').type(user.otpBypass);
+
+      // Submiting the verification form by selecting "Verify Code"
+      cy.contains('button', /Verify Code/i).click();
+
+      // Verifying that the user is navigated to upload/welcome page
+      cy.url().should('match', /upload/i);
+      cy.contains(/Home/i).should('be.visible');
+
+    })
 
   });
 

@@ -135,6 +135,7 @@ describe('Alternative Scenarios', () => {
     cy.contains(/Forgot your password\?/i).should('be.visible');
     cy.contains('button', /Sign in/i).should('be.visible');
     cy.contains(/Continue with Google/i).should('be.visible');
+    cy.contains(/Don't have an account\? Sign up/i).should('be.visible');
 
   });
 
@@ -204,7 +205,7 @@ describe('Error Validation', () => {
     // Filling out email field
     cy.get('input[name="email"]').type('not-an-email');
 
-    // Triggering error by selecting the passwoed field or anywhere else
+    // Triggering error by selecting the password field or anywhere else
     cy.get('input[name="password"]').click();
 
     // Verifying that the error message is present

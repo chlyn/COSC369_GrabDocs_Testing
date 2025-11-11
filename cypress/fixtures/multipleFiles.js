@@ -1,10 +1,12 @@
 describe('Upload Test', () => {
+  //checks if each file is on the page
   function verifyUploads(fnames) {
     const names = Array.isArray(fnames) ? fnames : [fnames];
-
     names.forEach((fname) => {
       cy.contains(fname, { matchCase: false, timeout: 3000 })
         .should('be.visible')
+
+        //if file isnt found then it takes a screenshot
         .then(null, () => {
           cy.contains(/No document/i, { timeout: 1000 })
             .should('not.be.visible')
@@ -18,7 +20,7 @@ describe('Upload Test', () => {
         });
     });
   }
-
+//creates a temporary txt file and returns to the regular path
   function makeFixture(filename, text) {
     const fpath = `cypress/fixtures/${filename}`;
     cy.writeFile(fpath, text);
@@ -26,18 +28,19 @@ describe('Upload Test', () => {
   }
 
   it('uploads a single file', () => {
+    //creates one file
     const fname = `upload_test_${Date.now()}.txt`;
     const fpath = makeFixture(fname, 'This is a test upload file.\n');
-
+//visists upload page
     cy.visit('https://app.grabdocs.com/upload');
-
+//gets the file
     cy.get('input[type="file"]', { timeout: 10000 })
       .first()
       .selectFile(fpath, { force: true });
 
     verifyUploads(fname);
   });
-
+//multiple txt files
   it('uploads multiple files', () => {
     const ts = Date.now();
     const files = [
@@ -47,7 +50,7 @@ describe('Upload Test', () => {
     ];
 
     const paths = files.map(f => makeFixture(f.name, f.body));
-
+//uploads all files at once
     cy.visit('https://app.grabdocs.com/upload');
     cy.get('input[type="file"]', { timeout: 10000 })
       .first()

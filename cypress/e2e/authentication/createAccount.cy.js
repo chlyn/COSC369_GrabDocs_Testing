@@ -61,7 +61,7 @@ describe('Success Scenarios', () => {
     cy.get('input[name="firstName"]').type('Grab');
     cy.get('input[name="lastName"]').type('Docs');
     cy.get('input[name="email"]').type(email);
-    cy.get('input[name="password"]').type('testest123');
+    cy.get('input[name="password"]').type('Testing123');
     cy.get('input[type="checkbox"]').click();
 
     // Submiting the form by selecting "Create Account"
@@ -228,7 +228,7 @@ describe('Error Validation', () => {
   });
 
   // Scenario where the user enters an existing username or email
-  it('username already exists', () => {
+  it('email already exists', () => {
 
     // Loading existing user credentials from fixture file
     cy.fixture('user').then((user) => {
@@ -238,7 +238,7 @@ describe('Error Validation', () => {
       cy.get('input[name="firstName"]').type(user.firstName);
       cy.get('input[name="lastName"]').type(user.lastName);
       cy.get('input[name="email"]').type(user.email);
-      cy.get('input[name="password"]').type(user.password);
+      cy.get('input[name="password"]').type('Testing123');
       cy.get('input[type="checkbox"]').click();
       
     })
@@ -247,7 +247,7 @@ describe('Error Validation', () => {
     cy.contains('button', /Create Account/i).click();
 
     // Verifying hat the error message is present
-    cy.contains(/Username or email already exists/i).should('be.visible');
+    cy.contains(/An account with this email already exists/i).should('be.visible');
 
   });
 

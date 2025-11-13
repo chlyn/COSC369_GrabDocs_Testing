@@ -39,6 +39,8 @@ describe('Success Scenarios', () => {
   // Resetting password using given form
   it('standard setup', () => {
 
+    cy.intercept('POST', '**/api/v1/web/forgot-password').as('forgotPassword');
+
     // Loading user credentials from fixture file
     cy.fixture('user').then((user) => {
 
@@ -48,7 +50,18 @@ describe('Success Scenarios', () => {
       // Submiting the form by selecting "Send Reset Link"
       cy.contains('button', /Send Reset Link/i).click();
 
-      // Verifying that success message is present
+      // Waiting for backend call and inspecting
+      cy.wait('@forgotPassword').then(({request, response}) => {
+
+        expect(request.url).to.include('/api/v1/web/forgot-password');
+        expect(request.method).to.eq('POST');
+        expect(request.body).to.have.property('email', user.email);
+
+        expect(response.statusCode).to.eq(200);
+        expect(response.body).to.have.property('success', true);
+      });
+
+      // Verifying that success message is present in the UI
       cy.contains(/If an account exists with this email, you will receive password reset instructions./i).should('be.visible');
 
     });

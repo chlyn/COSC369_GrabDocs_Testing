@@ -19,6 +19,13 @@ describe('Success Scenarios', () => {
 
   it('share link', () => {
 
+    // Ignore errors for using clipboard
+    Cypress.on('uncaught:exception', (err) => {
+      if (err.message.includes('writeText') && err.message.includes('Clipboard')) {
+        return false;
+      }
+    });
+
     // Going to more actions 
     cy.contains('td', 'Unnamed Link')
       .parent('tr')

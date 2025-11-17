@@ -229,7 +229,7 @@ describe('Error Validation', () => {
     // Triggering error by selecting "Sign in" button
     cy.contains('button', /Sign in/i).click();
 
-    // Verifying hat the error message is present
+    // Verifying that the error message is present
     cy.contains(/Login failed. Please check your credentials./i).should('be.visible');
 
   });

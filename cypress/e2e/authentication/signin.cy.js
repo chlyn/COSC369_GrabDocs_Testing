@@ -76,7 +76,7 @@ describe('Success Scenarios', () => {
         expect(response.statusCode).to.eq(200);
         expect(response.body).to.include({
           otpSent: true,
-          successs: true
+          success: true
         });
 
       });

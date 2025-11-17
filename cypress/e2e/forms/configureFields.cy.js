@@ -66,32 +66,33 @@ describe('Success Scenarios', () => {
 
       expect(response.statusCode).to.eq(200);
       expect(response.body).to.have.property('success', true);
+      const jsonFields = response.body.form.json_fields;
 
-      const response_field_0 = response.body.json_fields[0];
+      const response_field_0 = jsonFields[0];
       expect(response_field_0).to.include({
         title: 'New Textbox Field',
         type: 'textbox'
       });
       
-      const response_field_1 = response.body.json_fields[1];
+      const response_field_1 = jsonFields[1];
       expect(response_field_1).to.include({
         title: 'New Multiline textbox Field',
         type: 'multiline textbox'
       });
 
-      const response_field_2 = response.body.json_fields[2];
+      const response_field_2 = jsonFields[2];
       expect(response_field_2).to.include({
         title: 'New Dropdown Field',
         type: 'dropdown'
       });
 
-      const response_field_3 = response.body.json_fields[3];
+      const response_field_3 = jsonFields[3];
       expect(response_field_3).to.include({
         title: 'New Checkbox Field',
         type: 'checkbox'
       });
 
-      const response_field_4 = response.body.json_fields[4];
+      const response_field_4 = jsonFields[4];
       expect(response_field_4).to.include({
         title: 'New Datetime Field',
         type: 'datetime'

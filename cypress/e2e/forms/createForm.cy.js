@@ -41,6 +41,8 @@ describe('Success Scenarios', () => {
   // Logging in user before each test
   beforeEach(() => {
 
+    cy.wait(10000);
+
     cy.visit('https://app.grabdocs.com/login?redirect=%2Fforms');
     cy.login();
   
@@ -235,13 +237,13 @@ describe('Success Scenarios', () => {
       // Verifying the correct API endpoint, HTTP method, was used for the request
       expect(request.url).to.include('/api/v1/web/forms');
       expect(request.method).to.eq('POST');
-      expect(response.body.form).to.have.property('title', 'Custom Survey');
+      expect(response.body.form).to.have.property('title', 'Customer Survey');
       expect(response.body.form).to.have.property('type', 'Sruvey');
 
       // Verifying that the backend responded successfully
       expect(response.statusCode).to.eq(200);
       expect(response.body).to.have.property('success', true);
-      expect(response.body.form).to.have.property('title', 'Custom Survey');
+      expect(response.body.form).to.have.property('title', 'Customer Survey');
       expect(response.body.form).to.have.property('type', 'Survey');
     });
 

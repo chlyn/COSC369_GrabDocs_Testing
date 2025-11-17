@@ -67,13 +67,17 @@ describe('Success Scenarios', () => {
         // Verifying the correct API endpoint, HTTP method, username, and password was used for the request
         expect(request.url).to.include('/api/v1/web/login');
         expect(request.method).to.eq('POST');
-        expect(request.body).to.have.property('username', user.username);
-        expect(request.body).to.have.property('password', user.password);
+        expect(request.body).to.include({
+          username: user.username,
+          password: user.password
+        });
 
         // Verifying that the backend responded successfully
         expect(response.statusCode).to.eq(200);
-        expect(response.body).to.have.property('otpSent', true);
-        expect(response.body).to.have.property('success', true);
+        expect(response.body).to.include({
+          otpSent: true,
+          successs: true
+        });
 
       });
 
@@ -102,7 +106,9 @@ describe('Success Scenarios', () => {
 
         // Verifying that the backend responded successfully
         expect(response.statusCode).to.eq(200);
-        expect(response.body).to.have.property('authenticated', true);
+        expect(response.body).to.include({
+          authenticated: true
+        });
 
       });
 

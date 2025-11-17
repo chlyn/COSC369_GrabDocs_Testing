@@ -2,9 +2,6 @@ Cypress.Commands.add('login', () => {
 
     // Loading user credentials and OTP bypass from fixture file
     cy.fixture('user').then((user) => {
-        
-        // Visiting the login page
-        cy.visit('https://app.grabdocs.com/login');
 
         // Filling out the login form with valid credentials
         cy.get('input[name="username"]').type(user.username);

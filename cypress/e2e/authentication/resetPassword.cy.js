@@ -57,11 +57,16 @@ describe('Success Scenarios', () => {
         // Verifying the correct API endpoint, HTTP method, and email was used for the request
         expect(request.url).to.include('/api/v1/web/forgot-password');
         expect(request.method).to.eq('POST');
-        expect(request.body).to.have.property('email', user.email);
+        expect(request.body).to.include({
+          email: user.email
+        });
 
         // Verifying that the backend responded successfully
         expect(response.statusCode).to.eq(200);
-        expect(response.body).to.have.property('success', true);
+        expect(response.body).to.include({
+          success: true
+        });
+        
       });
 
       // Verifying that success message is present in the frontend

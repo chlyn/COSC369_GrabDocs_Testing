@@ -1,19 +1,15 @@
 // CREATE FORM E2E TEST //
 
-before(() => {
-  cy.session('user', () => {
-    cy.login();
-  });
-});
-
 // UI VERIFICATION //
 // Checking if all UI elements are visible upon page entry
 
 describe('UI Verification', () => {
 
-   // Loging in user before each test
+  // Logging in user before each test
   beforeEach(() => {
-    cy.visit('https://app.grabdocs.com/forms');
+
+    cy.visit('https://app.grabdocs.com/login?redirect=%2Fforms');
+    cy.login();
   
   });
 
@@ -42,15 +38,11 @@ describe('UI Verification', () => {
 
 describe('Success Scenarios', () => {
 
-   // Loging in user before each test
+  // Logging in user before each test
   beforeEach(() => {
 
-    // Loading user credentials and OTP bypass from fixture file
-    cy.fixture('user').then((user) => {
-
-      cy.visit('https://app.grabdocs.com/forms');
-
-    });
+    cy.visit('https://app.grabdocs.com/login?redirect=%2Fforms');
+    cy.login();
   
   });
 

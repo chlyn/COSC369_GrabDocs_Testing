@@ -4,7 +4,6 @@ from playwright.sync_api import expect
 
 SETTINGS_URL = "https://app.grabdocs.com/settings"
 
-
 def test_change_app_scale_with_buttons(page_with_auth):
     page = page_with_auth
     page.goto(SETTINGS_URL)

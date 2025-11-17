@@ -37,7 +37,7 @@ describe('UI Verification', () => {
 
 
 // SUCCESS SCENARIOS //
-// Testing every successful user workflow
+// Verifying that the user can create an account and login
 
 describe('Success Scenarios', () => {
 
@@ -51,8 +51,11 @@ describe('Success Scenarios', () => {
   // Creating account using given form
   it('standard setup', () => {
 
-    // Generating unqie credentials to create new accounts
-    const unique = Date.now();
+    // Monitoring the backend API request and response
+    cy.intercept('POST', '**api/v1/web/signup').as('createAccount');
+
+    // Generating unique credentials to create new accounts
+    const unique = Date.now().toString();
     const username = unique;
     const email = unique + '@example.com';
 
@@ -61,13 +64,28 @@ describe('Success Scenarios', () => {
     cy.get('input[name="firstName"]').type('Grab');
     cy.get('input[name="lastName"]').type('Docs');
     cy.get('input[name="email"]').type(email);
-    cy.get('input[name="password"]').type('testest123');
+    cy.get('input[name="password"]').type('Testing123');
     cy.get('input[type="checkbox"]').click();
 
     // Submiting the form by selecting "Create Account"
     cy.contains('button', /Create Account/i).click();
 
-    // Verifying that success message is present
+    // Verifying that the backend receives and responds correctly
+    cy.wait('@createAccount').then(({request, response}) => {
+
+      // Verifying the correct API endpoint, HTTP method, email, and username was used for the request
+      expect(request.url).to.include('/api/v1/web/signup');
+      expect(request.method).to.eq('POST');
+      expect(request.body).to.have.property('email', email);
+      expect(request.body).to.have.property('username', username);
+
+      // Verifying that the backend responded successfully
+      expect(response.statusCode).to.eq(201);
+      expect(response.body).to.have.property('message', 'User created successfully');
+      expect(response.body).to.have.property('success', true);
+    });
+
+    // Verifying that success message is present in the UI
     cy.contains(/Account created successfully!/i).should('be.visible');
 
   });
@@ -75,13 +93,23 @@ describe('Success Scenarios', () => {
   // Creating account using exisiting google account
   it('google setup', () => {
 
+    // Monitoring the backend API request and response
+    cy.intercept('POST', '**/api/v1/web/external-auth/google-signin').as('googleSignin');
+
     // Selecting the "Continue with Google" button
     cy.contains('button', /Continue with Google/i).click();
 
     // Verifying that the user is redirected to Google's accounts page
-    cy.origin('https://accounts.google.com', () => {
-      cy.location('hostname').should('eq', 'accounts.google.com');
-    });
+    cy.wait('@googleSignin').then(({request, response}) => {
+
+      // Verifying the correct API endpoint and HTTP method was used for the request
+      expect(request.url).to.include('/api/v1/web/external-auth/google-signin');
+      expect(request.method).to.eq('POST');
+
+      // Verifying that the backend responded successfully
+      expect(response.statusCode).to.eq(200);
+      
+    })
 
   });
 
@@ -227,8 +255,8 @@ describe('Error Validation', () => {
 
   });
 
-  // Scenario where the user enters an existing username or email
-  it('username already exists', () => {
+  // Scenario where the user enters an existing email
+  it('email already exists', () => {
 
     // Loading existing user credentials from fixture file
     cy.fixture('user').then((user) => {
@@ -238,7 +266,7 @@ describe('Error Validation', () => {
       cy.get('input[name="firstName"]').type(user.firstName);
       cy.get('input[name="lastName"]').type(user.lastName);
       cy.get('input[name="email"]').type(user.email);
-      cy.get('input[name="password"]').type(user.password);
+      cy.get('input[name="password"]').type('Testing123');
       cy.get('input[type="checkbox"]').click();
       
     })
@@ -247,7 +275,7 @@ describe('Error Validation', () => {
     cy.contains('button', /Create Account/i).click();
 
     // Verifying hat the error message is present
-    cy.contains(/Username or email already exists/i).should('be.visible');
+    cy.contains(/An account with this email already exists/i).should('be.visible');
 
   });
 

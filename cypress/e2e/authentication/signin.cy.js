@@ -33,7 +33,7 @@ describe('UI Verification', () => {
 
 
 // SUCCESS SCENARIOS //
-// Testing every successful user workflow
+// Verifying that the user can sign in and get to the home page
 
 describe('Success Scenarios', () => {
 
@@ -44,8 +44,12 @@ describe('Success Scenarios', () => {
 
   });
 
-  // Logging in using given form
+  // Logging in using the given form
   it('standard setup', () => {
+
+    // Monitoring the backend API request and response
+    cy.intercept('POST', '**api/v1/web/login').as('login');
+    cy.intercept('GET', '**api/v1/web/auth-check').as('verification');
 
     // Loading user credentials from fixture file
     cy.fixture('user').then((user) => {
@@ -57,10 +61,26 @@ describe('Success Scenarios', () => {
       // Submiting the form by selecting "Sign in"
       cy.contains('button', /Sign in/i).click();
 
-      // Verifying that two-authenticator message is present
+      // Verifying that the backend receives and responds correctly
+      cy.wait('@login').then(({request, response}) => {
+
+        // Verifying the correct API endpoint, HTTP method, username, and password was used for the request
+        expect(request.url).to.include('/api/v1/web/login');
+        expect(request.method).to.eq('POST');
+        expect(request.body).to.have.property('username', user.username);
+        expect(request.body).to.have.property('password', user.password);
+
+        // Verifying that the backend responded successfully
+        expect(response.statusCode).to.eq(200);
+        expect(response.body).to.have.property('otpSent', true);
+        expect(response.body).to.have.property('success', true);
+
+      });
+
+      // Verifying that two-authenticator message is present in the frontend
       cy.contains(/Verification code sent to/i).should('be.visible');
 
-      // Verifying each input fields and buttons are present
+      // Verifying each input fields and buttons are present in the UI
       cy.contains(/Two-Factor Authentication/i).should('be.visible');
       cy.get('input[name="otpCode"]').should('be.visible');
       cy.get('input[type="checkbox"]').should('be.visible');
@@ -73,7 +93,20 @@ describe('Success Scenarios', () => {
       // Submiting the verification form by selecting "Verify Code"
       cy.contains('button', /Verify Code/i).click();
 
-      // Verifying that the user is navigated to upload/welcome page
+      // Verifying that the backend receives and responds correctly
+      cy.wait('@verification').then(({request, response}) => {
+
+        // Verifying the correct API endpoint and HTTP method was used for the request
+        expect(request.url).to.include('/api/v1/web/auth-check');
+        expect(request.method).to.eq('GET');
+
+        // Verifying that the backend responded successfully
+        expect(response.statusCode).to.eq(200);
+        expect(response.body).to.have.property('authenticated', true);
+
+      });
+
+      // Verifying that the user is navigated to upload/welcome page in the frontend
       cy.url().should('match', /upload/i);
       cy.contains(/Home/i).should('be.visible');
 
@@ -84,13 +117,23 @@ describe('Success Scenarios', () => {
   // Logging in using exisiting google account
   it('google setup', () => {
 
+    // Monitoring the backend API request and response
+    cy.intercept('POST', '**/api/v1/web/external-auth/google-signin').as('googleSignin');
+
     // Selecting the "Continue with Google" button
     cy.contains('button', /Continue with Google/i).click();
 
-    // Verifying that the user is redirected to Google's accounts page
-    cy.origin('https://accounts.google.com', () => {
-      cy.location('hostname').should('eq', 'accounts.google.com');
-    });
+    // Verifying that the backend receives and responds correctly
+    cy.wait('@googleSignin').then(({request, response}) => {
+
+      // Verifying the correct API endpoint and HTTP method was used for the request
+      expect(request.url).to.include('/api/v1/web/external-auth/google-signin');
+      expect(request.method).to.eq('POST');
+
+      // Verifying that the backend responded successfully
+      expect(response.statusCode).to.eq(200);
+      
+    })
 
   });
 

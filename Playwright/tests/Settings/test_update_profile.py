@@ -21,3 +21,8 @@ def test_update_profile_first_name(page_with_auth):
     # Click Save Changes (we wont actually save)
     save_btn = page.get_by_role("button", name=re.compile("save changes", re.I))
     save_btn.click()
+
+    # Website is not working properly, test fails this assertion (11-17-2025)
+    expect(
+        page.get_by_text("Failed to update profile", exact=False)
+    ).not_to_be_visible(timeout=4000)

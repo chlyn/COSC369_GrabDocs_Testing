@@ -1,9 +1,9 @@
 /**
-Login flow E2E test for Post-Meeting Implementation
-Validates the standard email/password login flow
-Uses environment variaables for user credential informatio
-Confirms redirect to dashboard after successful login
-Reflects key points covered in the meeting recording
+Login flow E2E test for Post-Meeting Implementation.
+Validates the standard email/password login flow.
+Uses environment variaables for user credential information.
+Confirms redirect to dashboard after successful login.
+Reflects key points covered in the meeting recording.
 */
 
 describe('Login Flow (Post-Meeting Implementation)', () => {
@@ -20,3 +20,4 @@ describe('Login Flow (Post-Meeting Implementation)', () => {
       cy.contains('Welcome back').should('be.visible');
     });
   });
+

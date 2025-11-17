@@ -4,8 +4,8 @@ Cypress.Commands.add('login', () => {
     cy.fixture('user').then((user) => {
 
         // Filling out the login form with valid credentials
-        cy.get('input[name="username"]').type(user.username);
-        cy.get('input[name="password"]').type(user.password);
+        cy.get('input[name="username"]').type('chlynespined');
+        cy.get('input[name="password"]').type('asdfghjkl');
 
         // Submiting the login form by selecting "Sign in"
         cy.contains('button', /Sign in/i).click();

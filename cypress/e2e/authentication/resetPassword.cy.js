@@ -25,7 +25,7 @@ describe('UI Verification', () => {
 
 
 // SUCCESS SCENARIOS //
-// Testing every successful user workflow
+// Verifying that the user can reset their password
 
 describe('Success Scenarios', () => {
 
@@ -39,6 +39,7 @@ describe('Success Scenarios', () => {
   // Resetting password using given form
   it('standard setup', () => {
 
+     // Monitoring the backend API request and response
     cy.intercept('POST', '**/api/v1/web/forgot-password').as('forgotPassword');
 
     // Loading user credentials from fixture file
@@ -50,18 +51,20 @@ describe('Success Scenarios', () => {
       // Submiting the form by selecting "Send Reset Link"
       cy.contains('button', /Send Reset Link/i).click();
 
-      // Waiting for backend call and inspecting
+      // Verifying that the backend receives and responds correctly
       cy.wait('@forgotPassword').then(({request, response}) => {
 
+        // Verifying the correct API endpoint, HTTP method, and email was used for the request
         expect(request.url).to.include('/api/v1/web/forgot-password');
         expect(request.method).to.eq('POST');
         expect(request.body).to.have.property('email', user.email);
 
+        // Verifying that the backend responded successfully
         expect(response.statusCode).to.eq(200);
         expect(response.body).to.have.property('success', true);
       });
 
-      // Verifying that success message is present in the UI
+      // Verifying that success message is present in the frontend
       cy.contains(/If an account exists with this email, you will receive password reset instructions./i).should('be.visible');
 
     });

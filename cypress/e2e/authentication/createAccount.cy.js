@@ -76,13 +76,18 @@ describe('Success Scenarios', () => {
       // Verifying the correct API endpoint, HTTP method, email, and username was used for the request
       expect(request.url).to.include('/api/v1/web/signup');
       expect(request.method).to.eq('POST');
-      expect(request.body).to.have.property('email', email);
-      expect(request.body).to.have.property('username', username);
+      expect(request.body).to.include({
+        email: email,
+        username: username
+      });
 
       // Verifying that the backend responded successfully
       expect(response.statusCode).to.eq(201);
-      expect(response.body).to.have.property('message', 'User created successfully');
-      expect(response.body).to.have.property('success', true);
+      expect(response.body).to.include({
+        message: 'User created successfully',
+        success: true
+      });
+
     });
 
     // Verifying that success message is present in the UI

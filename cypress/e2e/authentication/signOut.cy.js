@@ -1,21 +1,15 @@
 // SIGN OUT E2E Tests //
 
-// Logging in user before the session
-before(() => {
-  cy.session('user', () => {
-    cy.login();
-  });
-});
-
 // SUCCESS SCENARIOS //
 // Verifying that the user can log out and return to the login page
 
 describe('Success Scenarios', () => {
 
-  // Visiting the login page before each test
+  // Logging in user before each test
   beforeEach(() => {
 
-      cy.visit('https://app.grabdocs.com/upload');
+      cy.visit('https://app.grabdocs.com/login');
+      cy.login();
 
   });
   
@@ -25,7 +19,7 @@ describe('Success Scenarios', () => {
     cy.intercept('POST', '**/api/v1/web/logout').as('logout');
 
     // Triggering logout by selecting user profile button and "Sign Out" button
-    cy.contains('button', /TU/i).click();
+    cy.contains('button', /TA/i).click();
     cy.contains('button', /Sign Out/i).click();
 
     // Verifying that the backend receives and responds correctly
@@ -37,8 +31,11 @@ describe('Success Scenarios', () => {
 
       // Verifying that the backend responded successfully
       expect(response.statusCode).to.eq(200);
-      expect(response.body).to.have.property('message', 'Logout successful');
-      expect(response.body).to.have.property('success', true);
+      expect(response.body).to.include({
+        message: 'Logout successful',
+        success: true
+      });
+
     })
 
     // Verifying that the user is navigated to login page in the frontend

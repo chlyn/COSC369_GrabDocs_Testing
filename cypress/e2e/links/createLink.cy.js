@@ -3,7 +3,6 @@
 // UI VERIFICATION //
 // Checking if all UI elements are visible upon page entry
 
-
 describe('UI Verification', () => {
 
   // Logging in user and creating a form before each test

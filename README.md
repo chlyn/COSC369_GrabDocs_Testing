@@ -27,4 +27,17 @@ An end-to-end testing assignment for [GrabDocs](https://grabdocs.com/), built wi
 ---
 
 ## ️🌟 Features To Be Tested
+- Authentication (Login & Log Out)
+- Document Functions
+- Ask Help Chatbot
+- AI Chatbot
+- Reach
+- Links
+- Calendar
+- Forms
+- Analysis
+- Workspaces
+- Chat History 
+- Feedback
+- Settings
 
